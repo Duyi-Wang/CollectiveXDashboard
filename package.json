@@ -30,5 +30,10 @@
     "typescript": "~5.8.3",
     "vite": "^6.3.6",
     "vitest": "^4.1.11"
+  },
+  "description": "A frontend-only dashboard for CollectiveX GPU communication benchmarks, with local, GitHub Actions, and InferenceX data sources.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

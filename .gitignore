@@ -7,3 +7,7 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 .DS_Store
+coverage/
+.cache/
+*.log
+.claude/settings.local.json

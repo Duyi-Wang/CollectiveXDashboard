@@ -1,6 +1,6 @@
 # 验证记录
 
-验证环境：2026-09-10，Node.js 22.22.2，Chromium 153，Vite 6.4.3。项目路径 `/home/duwang/CollectiveXDashboard`。
+验证环境：2026-09-10，Node.js 22.22.2，Chromium 153，Vite 6.4.3。所有命令从仓库根目录执行。
 
 ## 可重复的自动检查
 
@@ -19,7 +19,7 @@
 4. 使用当前机器已有的 `gh` 登录凭据，在 Chromium 的产品界面中输入 run URL `https://github.com/SemiAnalysisAI/InferenceX/actions/runs/34432070017`，直接下载 matrix 和两个 shard ZIP。导入得到 1 个运行、4 条 EP 曲线、28 个点；界面显示 GitHub CI 来源。token 只通过内存传递，没有写入文件、测试 trace、截图或日志。
 5. 该 run 的真实 artifacts：matrix ID `10134835706`；H100 shard ID `10135329362`；H200 shard ID `10135198237`。三个 artifact 检查时均未过期。公共匿名 API 曾返回共享出口限流 403，已有登录凭据请求成功。
 
-生产部署与本地开发均使用同样的官方绝对 URL 和 GitHub URL。`vite.config.ts` 没有 proxy，应用中没有 API server 或数据库凭据。没有创建远程仓库或发布网站；本地 Git 提交保存交付内容。
+生产部署与本地开发均使用同样的官方绝对 URL 和 GitHub URL。`vite.config.ts` 没有 proxy，应用中没有 API server 或数据库凭据。这些结果来自本地验证，GitHub 托管的 CI 运行结果应以仓库 Actions 页面为准。
 
 ## 视觉与数据边界
 
@@ -34,3 +34,7 @@
 ## AMD 风格暗色主题
 
 2026-09-10：深灰 / 红色主题通过完整 60 项单元测试、9 项浏览器测试与生产构建。实际检查了 1440px 桌面、390px 手机和导入弹窗，没有页面运行时错误或手机横向溢出。SVG 包含深色背景与完整图例；下载后的 PNG 解码后，背景像素为 `[21, 23, 28, 255]`，与 `#15171C` 一致。抽查面板说明文字与背景的对比度约 7.49:1，主按钮白色文字与红底对比度约 5.25:1。这是对应元素的检查结果，不代表全站可访问性认证。
+
+## GitHub 上传前整理
+
+2026-09-10：将暂存的 Git tree 导出到独立临时目录，以模拟只含版本控制文件的新 checkout。该副本从零运行 `npm ci`，通过 60 项单元测试、生产构建与 9 项浏览器测试；E2E 使用 `CI=true`，确保测试启动自己的 preview 服务。归档后 `claude.md` 仍是指向 `AGENTS.md` 的相对软链接。README 本地链接与快照 SHA-256 校验通过，Git 索引不包含依赖目录、构建输出或测试产物。此为本地发布准备验证，并非 GitHub 托管 CI 已运行的声明。
