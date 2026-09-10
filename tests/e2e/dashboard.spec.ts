@@ -151,7 +151,7 @@ test("官方 URL 直连导入与 CORS 失败提示", async ({ page }) => {
   ).toBeChecked();
 });
 
-test("GitHub URL → artifact ZIP → 图表，token 关闭即清除", async ({ page }) => {
+test("GitHub URL → artifact ZIP → 图表，未启用保存时 token 关闭即清除", async ({ page }) => {
   await start(page);
   const root = "https://api.github.com/repos/SemiAnalysisAI/InferenceX";
   const token = "test-token-only-do-not-persist";

@@ -9,7 +9,8 @@ import {
   LoaderCircle,
   FileJson,
   ExternalLink,
-  ShieldCheck,
+  HardDrive,
+  Trash2,
 } from "lucide-react";
 import type { ImportResult, LoadedDataset } from "./model";
 import { importFiles, parseDocuments } from "./importers";
@@ -23,6 +24,11 @@ import {
   type RunSummary,
 } from "./sources";
 import { number, shortDate } from "./utils";
+import {
+  clearGitHubToken,
+  readGitHubToken,
+  saveGitHubToken,
+} from "./tokenStorage";
 
 export type SourceTab = "local" | "github" | "official";
 interface Props {
@@ -41,7 +47,17 @@ export default function SourcesPanel({ initialTab, onClose, onImport }: Props) {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [url, setUrl] = useState("");
-  const [token, setToken] = useState("");
+  const [initialToken] = useState(readGitHubToken);
+  const [token, setToken] = useState(initialToken.token);
+  const [savedToken, setSavedToken] = useState(initialToken.token);
+  const [rememberToken, setRememberToken] = useState(
+    Boolean(initialToken.token),
+  );
+  const [tokenStorageError, setTokenStorageError] = useState(
+    initialToken.available
+      ? ""
+      : "无法读取浏览器保存的 Token；仍可手动输入并用于本次会话。",
+  );
   const [runId, setRunId] = useState("");
   const [runs, setRuns] = useState<RunSummary[]>([]);
   const [drag, setDrag] = useState(false);
@@ -54,6 +70,46 @@ export default function SourcesPanel({ initialTab, onClose, onImport }: Props) {
       abort.current?.abort();
     };
   }, []);
+  function persistToken(value: string): boolean {
+    if (!saveGitHubToken(value)) {
+      setTokenStorageError(
+        "无法保存 Token。当前输入仍可用于本次会话；之前保存的 Token 可能仍在浏览器中。",
+      );
+      return false;
+    }
+    setSavedToken(value.trim());
+    setTokenStorageError("");
+    return true;
+  }
+  function updateToken(value: string) {
+    setToken(value);
+    if (rememberToken) persistToken(value);
+  }
+  function changeRememberToken(remember: boolean) {
+    if (remember) {
+      if (persistToken(token)) setRememberToken(true);
+    } else if (clearGitHubToken()) {
+      setRememberToken(false);
+      setSavedToken("");
+      setTokenStorageError("");
+    } else {
+      setTokenStorageError(
+        "无法删除已保存的 Token。请重试，或在浏览器设置中清除此站点的数据。",
+      );
+    }
+  }
+  function clearToken() {
+    if (!clearGitHubToken()) {
+      setTokenStorageError(
+        "无法删除已保存的 Token。请重试，或在浏览器设置中清除此站点的数据。",
+      );
+      return;
+    }
+    setToken("");
+    setSavedToken("");
+    setRememberToken(false);
+    setTokenStorageError("");
+  }
   async function task(action: (signal: AbortSignal) => Promise<void>) {
     setBusy(true);
     setError("");
@@ -219,18 +275,66 @@ export default function SourcesPanel({ initialTab, onClose, onImport }: Props) {
               </span>
               <input
                 type="password"
+                aria-label="GitHub token"
+                aria-describedby="github-token-storage-help"
                 autoComplete="off"
                 spellCheck={false}
                 value={token}
-                onChange={(e) => setToken(e.target.value)}
+                onChange={(e) => updateToken(e.target.value)}
                 placeholder={t("github_pat_… 或 ghp_…")}
                 disabled={busy}
               />
             </label>
-            <p className="small muted">
-              <ShieldCheck size={14} />
-              {t("Token 仅用于本次浏览器请求，关闭窗口即清除，不保存或导出。")}
+            <div className="token-preferences">
+              <label className="token-remember">
+                <input
+                  type="checkbox"
+                  checked={rememberToken}
+                  disabled={busy}
+                  onChange={(e) => changeRememberToken(e.target.checked)}
+                />
+                {t("在此浏览器保存 Token")}
+              </label>
+              <button
+                type="button"
+                className="subtle token-clear"
+                onClick={clearToken}
+                disabled={
+                  busy ||
+                  (!token &&
+                    !savedToken &&
+                    !rememberToken &&
+                    !tokenStorageError)
+                }
+              >
+                <Trash2 size={13} />
+                {t("清除 Token")}
+              </button>
+            </div>
+            <p
+              id="github-token-storage-help"
+              className="small muted token-help"
+            >
+              <HardDrive size={14} />
+              {t(
+                "保存后会在此站点的浏览器存储中以未加密形式保留，仅在可信设备上启用。Token 不包含在任何导出中。",
+              )}
             </p>
+            {tokenStorageError ? (
+              <p className="token-storage-error" role="alert">
+                {t(tokenStorageError)}
+              </p>
+            ) : (
+              <p className="token-storage-status" aria-live="polite">
+                {t(
+                  rememberToken && savedToken
+                    ? "已保存在此浏览器，关闭窗口或刷新后可自动填入。"
+                    : rememberToken
+                      ? "输入 Token 后将自动保存。"
+                      : "未保存：Token 仅用于本次会话，关闭窗口后清除。",
+                )}
+              </p>
+            )}
             <button
               className="primary wide"
               disabled={busy || !url.trim()}

@@ -4,6 +4,22 @@ export type TranslationParams = Record<string, string | number>;
 
 /** UI copy only. Benchmark fields, identifiers, file names and upstream details stay intact. */
 export const ENGLISH: Record<string, string> = {
+  "在此浏览器保存 Token": "Save token in this browser",
+  "清除 Token": "Clear token",
+  "保存后会在此站点的浏览器存储中以未加密形式保留，仅在可信设备上启用。Token 不包含在任何导出中。":
+    "Saved tokens are stored unencrypted in this browser for this site. Enable only on a trusted device. Tokens are never included in exports.",
+  "已保存在此浏览器，关闭窗口或刷新后可自动填入。":
+    "Saved in this browser. The token will be filled in when you reopen the dialog or reload.",
+  "输入 Token 后将自动保存。":
+    "The token will be saved automatically when entered.",
+  "未保存：Token 仅用于本次会话，关闭窗口后清除。":
+    "Not saved: the token is used for this session only and cleared when the dialog closes.",
+  "无法读取浏览器保存的 Token；仍可手动输入并用于本次会话。":
+    "Cannot read saved tokens from browser storage. You can still enter a token for this session.",
+  "无法保存 Token。当前输入仍可用于本次会话；之前保存的 Token 可能仍在浏览器中。":
+    "Could not save the token. The current entry can still be used for this session; a previously saved token may remain in browser storage.",
+  "无法删除已保存的 Token。请重试，或在浏览器设置中清除此站点的数据。":
+    "Could not remove the saved token. Retry or clear this site's data in your browser settings.",
   "CollectiveX 首页": "CollectiveX home",
   性能实验台: "Benchmark explorer",
   上游项目: "Upstream project",
@@ -160,8 +176,6 @@ export const ENGLISH: Record<string, string> = {
   "下载 artifact 需要 Actions: read":
     "Artifact downloads require Actions: read",
   "github_pat_… 或 ghp_…": "github_pat_… or ghp_…",
-  "Token 仅用于本次浏览器请求，关闭窗口即清除，不保存或导出。":
-    "The token is used only for this browser request and cleared when you close the dialog. It is never saved or exported.",
   "读取 CI run 并导入": "Fetch and import CI run",
   "支持指定 run attempt。已过期的 artifacts 无法从 GitHub 恢复，可在官方数据库查找缓存或导入本地备份。":
     "You can select a run attempt. Expired artifacts cannot be recovered from GitHub; try the official database cache or a local backup.",

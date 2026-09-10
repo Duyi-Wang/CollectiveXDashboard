@@ -17,6 +17,7 @@ This is a frontend-only Vite + React + TypeScript application. Do not introduce 
 - `src/i18n.ts`, `src/i18n-react.tsx`: translation catalog, localized diagnostics, and language preferences.
 - `src/styles.css`, `src/theme.ts`: semantic UI colors and concrete SVG/PNG colors. Keep both aligned with the AMD-inspired dark theme.
 - `src/storage.ts`: IndexedDB workspace persistence.
+- `src/tokenStorage.ts`: opt-in GitHub token storage, isolated from workspace persistence and exports.
 - `public/data/`, `scripts/snapshot.mjs`: official historical snapshots and their provenance manifest.
 - `tests/`: unit tests at the root and Playwright browser tests under `tests/e2e/`.
 
@@ -36,7 +37,7 @@ Read the relevant documentation under `docs/` before changing a data contract. T
 
 ## Credentials and browser state
 
-- GitHub tokens may exist only in the open import dialog's memory and request headers. Never persist them to localStorage, IndexedDB, files, logs, traces, URLs, or exports.
+- GitHub tokens are session-only by default. Users may explicitly enable saving in origin-scoped localStorage under `collectivex-dashboard:github-token:v1` through `src/tokenStorage.ts`. Keep this key separate from workspace and language data, restore the opt-in token on reopen, and support removal. Never include tokens in IndexedDB, files, logs, traces, URLs, or exports. Report storage failures without exposing credential contents; never claim localStorage is encrypted.
 - Language preferences are stored separately from the workspace. Changing the language must not reset datasets, filters, or legend visibility.
 - Translate UI copy and application-authored diagnostics. Preserve raw benchmark values, identifiers, file names, and upstream error details.
 - Keep dependency directories, build output, local environment files, and test artifacts out of Git.

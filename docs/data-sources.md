@@ -49,7 +49,7 @@ CORS 是服务器响应策略，无法通过前端 `no-cors`、伪造 `Origin` �
 3. matrix 名为 `cxsweep-matrix-{runId}`；shard 名为 `cxshard-{cell}-{runId}-{attempt}`。每个 cell 选择不超过选定 run attempt 的最大 attempt；同 attempt 重名取最大 artifact ID。rerun 只重跑失败 cell 时，其他 cell 保留旧 attempt，不可整体过滤成唯一 attempt。
 4. 下载 `GET https://api.github.com/repos/{owner}/{repo}/actions/artifacts/{artifactId}/zip`。该端点返回临时签名重定向，浏览器自动跟随即可。ZIP 内的 JSON 在浏览器里解压、校验，matrix 和 shard 一起交给共同 reader。
 
-公共仓库的 run metadata/artifact list 通常可以匿名读取，但**下载 artifact 仍需要 GitHub token**。推荐 fine-grained PAT，仅授予目标仓库 `Actions: read`。私有仓库还需要 token 对该仓库有访问权，具体取决于资源 owner 和组织策略。不应硬编码、日志打印或随项目导出 token；本项目只在本次浏览器会话内使用 token。
+公共仓库的 run metadata/artifact list 通常可以匿名读取，但**下载 artifact 仍需要 GitHub token**。推荐 fine-grained PAT，仅授予目标仓库 `Actions: read`。私有仓库还需要 token 对该仓库有访问权，具体取决于资源 owner 和组织策略。不应硬编码、日志打印或随项目导出 token；本项目默认仅在打开的导入窗口内存中使用 token；用户可主动勾选“在此浏览器保存 Token”，将其保存到当前 origin 的 localStorage，关闭窗口或刷新后自动填入。存储键为 `collectivex-dashboard:github-token:v1`，与工作区及语言偏好分离；取消勾选删除保存值，“清除 Token”同时清空输入。该存储未加密，只应在可信设备启用。
 
 GitHub REST API 返回 `Access-Control-Allow-Origin: *`，支持跨域；参考项目已经使用浏览器直接 `fetch` ZIP。本项目同样直接下载，不提供代理。CORS 插件应仅对官方 InferenceX 域名生效：在 GitHub 的有效 CORS 头之外追加同名头，反而可能使下载被浏览器拒绝。直连失败时可在 GitHub 下载 ZIP 后导入。
 

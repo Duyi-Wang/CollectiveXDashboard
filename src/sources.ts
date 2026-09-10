@@ -1,4 +1,4 @@
-/** Browser-only data clients. Credentials are never persisted or exported. */
+/** Browser-only data clients. Optional credential persistence is isolated in tokenStorage.ts. */
 export const OFFICIAL_API_BASE = "https://inferencex.semianalysis.com/api/v1";
 export const OFFICIAL_CORS_HELP =
   "无法读取 InferenceX：官方 API 未开放跨域读取，也可能是网络故障。请启用仅对 inferencex.semianalysis.com 生效的 CORS 浏览器插件后重试；也可读取内置快照或导入本地 JSON。";

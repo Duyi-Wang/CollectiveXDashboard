@@ -57,7 +57,9 @@ An extension does not bypass token permissions, API rate limits, or artifact exp
 
 Artifact downloads require a token even for public repositories. Prefer a fine-grained personal access token scoped to the target repository with **Actions: read** permission, subject to the repository owner's access policy.
 
-The token stays in the import dialog's memory and is cleared when the dialog closes. It is never written to localStorage, IndexedDB, logs, or exported datasets.
+Tokens are session-only by default and are cleared when the dialog closes. Enable **Save token in this browser** to store a token in this site's localStorage and fill it in after reopening or reloading. Changes to the token are saved automatically while the option is enabled. Unchecking it removes the saved value while leaving the current entry available for this session; **Clear token** removes the saved value and clears the input.
+
+Saved tokens are **unencrypted** and accessible to scripts running on the same origin. Enable this option only on a device you trust. Storage is specific to the browser profile and site origin (scheme, hostname, and port), so `localhost`, a network IP, and a deployed website have separate saved tokens. The credential uses a dedicated key and is never included in IndexedDB workspaces, JSON/CSV exports, logs, or URLs. If browser storage is unavailable, the app reports the failure and still accepts a token for the current session.
 
 For a selected run attempt, the importer chooses each cell's newest eligible shard and retains older measurements for cells that were not rerun. Original shard attempts remain traceable. Expired artifacts cannot be reconstructed from GitHub; an already-ingested copy may still exist in the official database.
 
@@ -127,7 +129,7 @@ The GitHub Actions [verification workflow](.github/workflows/ci.yml) runs these 
 | Directory / file | Purpose |
 | --- | --- |
 | `src/App.tsx`, `src/SourcesPanel.tsx` | Workspace, filters, analysis views, and import controls |
-| `src/sources.ts` | Direct API requests and GitHub artifact selection |
+| `src/sources.ts`, `src/tokenStorage.ts` | Direct API requests, artifact selection, and optional local token storage |
 | `src/importers.ts`, `src/export.ts` | Input normalization and round-trip Dataset CSV |
 | `src/model.ts`, `src/metrics.ts` | Shared data contract, metric reads, fits, and KV analysis |
 | `src/chart.tsx`, `src/theme.ts`, `src/styles.css` | SVG rendering, dark theme, and image exports |

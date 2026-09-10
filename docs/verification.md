@@ -6,8 +6,8 @@
 
 - `npm ci`：从 lockfile 全新安装依赖。
 - `npm run build`：TypeScript 严格类型检查和 Vite 生产构建。
-- `npm test`：60 项单元测试，覆盖 raw/官方/CSV/ZIP 解析、rerun 组装、分位数缺失、单位换算、KV、OLS、真实 SVG 断线、数据 CSV 往返、权限错误与凭据脱敏。
-- `npm run test:e2e`：9 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
+- `npm test`：64 项单元测试，覆盖 raw/官方/CSV/ZIP 解析、rerun 组装、分位数缺失、单位换算、KV、OLS、真实 SVG 断线、数据 CSV 往返、权限错误与凭据脱敏。
+- `npm run test:e2e`：13 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
 
 网络协议 E2E 中的官方/GitHub 响应为受控模拟，用于保证 CI 可重复且无需真实 token；测量值来自随项目保存的真实官方快照。以下真实网络检查另外执行，不能与模拟测试混淆。
 
@@ -42,3 +42,8 @@
 ## 提示色与文件名修正
 
 2026-09-10：将入口文件统一为大写 `CLAUDE.md`，仍为指向 `AGENTS.md` 的相对软链接。主题区分品牌色与交互/状态色：品牌和主按钮保留红色，来源卡片、选中行、导航和说明采用灰蓝色，导入完成提示采用绿色。实际浏览器验证了桌面、390px 手机及导入弹窗，导入成功文字颜色为 `rgb(145, 207, 176)`，没有页面错误；60 项单元测试、9 项浏览器测试和构建再次通过。
+
+
+## 可选本地 Token 保存
+
+2026-09-10：按用户要求加入显式选择的本地 Token 保存。默认不持久化；勾选后使用独立的 localStorage key，重新打开窗口或刷新会恢复。取消勾选删除保存值，清除按钮同时清空输入。64 项单元测试、13 项浏览器测试和生产构建通过，新增检查覆盖保存/更新/恢复/清除、存储拒绝、JSON/Dataset CSV/Chart CSV 与 IndexedDB 工作区隔离，以及中英文提示。测试只使用虚构 Token。保存是当前 origin 的未加密浏览器存储，不是加密凭据库；以上能力替代旧版本“始终仅保存在窗口内存中”的规则。
