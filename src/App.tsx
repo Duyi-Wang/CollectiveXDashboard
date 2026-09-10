@@ -724,7 +724,7 @@ export default function App() {
                               x2="23"
                               y1="5"
                               y2="5"
-                              stroke="#74a38f"
+                              stroke="var(--accent)"
                               strokeWidth="2"
                               strokeDasharray={chartDash(
                                 Math.max(

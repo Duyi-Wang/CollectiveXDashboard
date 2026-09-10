@@ -129,3 +129,12 @@ aggregate activation GB/s = activation_data_bytes / Lq × 1e-3
 同一 run/attempt/version 内，同 case 存在多个 case attempt 时，选择 `attempt_ordinal` 最大的记录；相同 ordinal 选择较新 `generated_at`。这不是跨 run 统计聚合，也不保证成功优先：新的失败 attempt 会显示失败。本地导入不同 GitHub run_attempt 时保留为独立 dataset；通过 GitHub URL 读取时，按选定 attempt 组装运行，未重跑 cell 的旧测量通过 source_run_attempt 保留来源。无法确定归属的 matrix 不会擅自套用到其他 run。
 
 验证覆盖当前 raw 的 pair_period/wire bytes、PR 时代缺少 pair_period/precision 字段的 raw、官方 assembled 数据、失败和缺失 point、matrix-only、重复 attempt、CSV quoting、JSONL 坏行、损坏 ZIP、KV 数据单位、导出再导入。另用真实 run `34432070017` 的 h100 artifact 验证出 2 条曲线/14 个点，并用本地 2026-07-07 至 2026-07-14 历史 JSONL 验证出 6 个 runs、58 条曲线、332 个成功 points。
+
+
+## 上游配色与本项目暗色主题
+
+2026-09-10 核验上游 [globals.css](https://github.com/SemiAnalysisAI/InferenceX-app/blob/3520165e9be0fbef288bf77d793b5ce245741024/packages/app/src/app/globals.css#L163)：亮色背景 `#EAEBEC`、文字 `#131416`；暗色背景 `#131416`、文字 `#EAEBEC`；primary 为金橙色 `#F7B041`，secondary 为蓝色 `#0B86D1`。品牌色在亮色主题使用 secondary，在暗色主题使用 primary。
+
+CollectiveX 通过 `useThemeColors` → [generateVendorColors](https://github.com/SemiAnalysisAI/InferenceX-app/blob/3520165e9be0fbef288bf77d793b5ce245741024/packages/app/src/lib/dynamic-colors.ts) 给当前选中配置分配 OKLCH 色彩，不是固定一组十六进制曲线颜色。[厂商色相区间](https://github.com/SemiAnalysisAI/InferenceX-app/blob/3520165e9be0fbef288bf77d793b5ce245741024/packages/constants/src/gpu-keys.ts#L198) 为：AMD 12–42°（红/橙）、NVIDIA 120–170°（绿）、OpenAI 290–330°（紫）、Google 250–275°（蓝）、unknown 185–235°（青蓝）；暗色主题提高明度。配置颜色与 run 线型是独立维度。
+
+本项目按用户偏好使用 AMD 风格的深灰 / 红色主题，而非 AMD 官方设计规范：页面背景 `#0D0F13`、面板 `#15171C`、主按钮 `#CE2939`、文字强调 `#FF6874`。AMD 曲线使用红、珊瑚、橙色，NVIDIA 使用绿、薄荷、青色；配置哈希决定具体色相与明度，切换筛选不会改变同一配置的颜色。身份来自数据的 vendor 字段，不通过 SKU 猜测。页面和导出的 SVG/PNG 使用一致的深色背景、坐标和图例颜色。CSS 语义色值在 `src/styles.css`，导出所需的具体色值在 `src/theme.ts`。

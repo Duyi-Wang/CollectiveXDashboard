@@ -1,26 +1,37 @@
 import { useI18n } from "./i18n-react";
 import { translate, type Language } from "./i18n";
 import { useId, useMemo, useState } from "react";
-import { area, format, line, scaleLinear, scaleLog } from "d3";
+import { area, format, hsl, line, scaleLinear, scaleLog } from "d3";
+import { CHART_THEME } from "./theme";
 import type { ChartPoint, ChartSeries } from "./model";
 
-const PALETTE = [
-  "#008779",
-  "#e0783c",
-  "#8060b7",
-  "#287db6",
-  "#b44f79",
-  "#718634",
-  "#277b8b",
-  "#ae761f",
-  "#6052a3",
-  "#b3483b",
-];
+/** Keep each configuration's color stable across filters and runs. Vendor fields
+ * come from the normalized data contract, never inferred from hardware names. */
 export function chartColor(key: string): string {
   let hash = 2166136261;
   for (let index = 0; index < key.length; index++)
     hash = Math.imul(hash ^ key.charCodeAt(index), 16777619);
-  return PALETTE[(hash >>> 0) % PALETTE.length];
+  const seed = hash >>> 0;
+  let vendor = "unknown";
+  try {
+    const fields: unknown = JSON.parse(key);
+    if (Array.isArray(fields)) {
+      const candidate = fields[fields[0] === "kv" ? 2 : 1];
+      if (typeof candidate === "string") vendor = candidate.toLowerCase();
+    }
+  } catch {
+    /* Arbitrary or legacy keys use the neutral palette. */
+  }
+  const position = (seed % 997) / 996;
+  const hue =
+    vendor === "amd"
+      ? 350 + position * 40
+      : vendor === "nvidia"
+        ? 105 + position * 70
+        : 205 + position * 80;
+  const saturation = vendor === "amd" ? 0.88 : 0.6;
+  const lightness = 0.64 + ((seed >>> 12) % 5) * 0.035;
+  return hsl(hue % 360, saturation, lightness).formatHex();
 }
 
 export function chartDash(runIndex: number): string {
@@ -196,8 +207,8 @@ export function PerformanceChart({
         <title
           id={titleId}
         >{`${yLabel} vs ${xLabel} · ${t("{count} 个有效数据点", { count: geometry.count })}`}</title>
-        <rect width={WIDTH} height={HEIGHT} fill="#ffffff" />
-        <g className="chart-grid" stroke="#e7eeed" strokeWidth="1">
+        <rect width={WIDTH} height={HEIGHT} fill={CHART_THEME.background} />
+        <g className="chart-grid" stroke={CHART_THEME.grid} strokeWidth="1">
           {geometry.xTicks.map((tick) => (
             <line
               key={`x-${tick}`}
@@ -217,7 +228,7 @@ export function PerformanceChart({
             />
           ))}
         </g>
-        <g fill="#71817f" fontSize="12">
+        <g fill={CHART_THEME.text} fontSize="12">
           {geometry.xTicks.map((tick) => (
             <text
               key={`x-${tick}`}
@@ -242,9 +253,9 @@ export function PerformanceChart({
         <path
           d={`M${MARGIN.left},${MARGIN.top}V${BOTTOM}H${RIGHT}`}
           fill="none"
-          stroke="#b6c6c2"
+          stroke={CHART_THEME.axis}
         />
-        <g fill="#47645e" fontSize="13" fontWeight="500">
+        <g fill={CHART_THEME.text} fontSize="13" fontWeight="500">
           <text
             x={(MARGIN.left + RIGHT) / 2}
             y={HEIGHT - 12}
@@ -290,7 +301,7 @@ export function PerformanceChart({
                     cx={geometry.x(point.x)}
                     cy={geometry.y(point.y!)}
                     r={active?.point === point ? 6 : 4}
-                    fill="#fff"
+                    fill={CHART_THEME.background}
                     stroke={chartColor(entry.colorKey)}
                     strokeWidth="2"
                     tabIndex={0}
@@ -313,7 +324,7 @@ export function PerformanceChart({
           </g>
         ))}
         {geometry.count === 0 && (
-          <g fill="#788a85" fontSize="15" textAnchor="middle">
+          <g fill={CHART_THEME.muted} fontSize="15" textAnchor="middle">
             <text x={WIDTH / 2} y={HEIGHT / 2 - 10}>
               {t("当前筛选没有可绘制的数据")}
             </text>
@@ -333,14 +344,15 @@ export function PerformanceChart({
             left: `${(geometry.x(active.point.x) / WIDTH) * 100}%`,
             top: `${(geometry.y(active.point.y!) / HEIGHT) * 100}%`,
             transform: `translate(${geometry.x(active.point.x) > WIDTH * 0.6 ? "-102%" : "12px"}, -105%)`,
-            background: "#123b33",
-            color: "#fff",
+            background: CHART_THEME.tooltip,
+            border: `1px solid ${CHART_THEME.tooltipBorder}`,
+            color: CHART_THEME.title,
             borderRadius: 8,
             padding: "10px 13px",
             fontSize: 12,
             maxWidth: 320,
             zIndex: 2,
-            boxShadow: "0 6px 24px #123b3325",
+            boxShadow: "0 8px 28px #00000060",
           }}
         >
           <strong>{active.series.label}</strong>
@@ -394,7 +406,7 @@ function exportElement(
       {
         x: "30",
         y: String(cursor),
-        fill: "#536a65",
+        fill: CHART_THEME.title,
         "font-size": "13",
         "font-weight": "600",
       },
@@ -417,7 +429,12 @@ function exportElement(
       for (const row of words) {
         append(
           "text",
-          { x: "75", y: String(cursor), fill: "#48635b", "font-size": "11" },
+          {
+            x: "75",
+            y: String(cursor),
+            fill: CHART_THEME.text,
+            "font-size": "11",
+          },
           row.trim(),
         );
         cursor += 16;
@@ -437,7 +454,7 @@ function exportElement(
   );
   background.setAttribute("width", String(width));
   background.setAttribute("height", String(height));
-  background.setAttribute("fill", "#fff");
+  background.setAttribute("fill", CHART_THEME.background);
   clone.prepend(background);
   clone
     .querySelectorAll("[tabindex]")
@@ -489,7 +506,7 @@ export async function exportPng(
     canvas.height = Math.ceil(height * scale);
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Canvas 2D context is unavailable");
-    context.fillStyle = "#ffffff";
+    context.fillStyle = CHART_THEME.background;
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     const blob = await new Promise<Blob>((resolve, reject) =>
