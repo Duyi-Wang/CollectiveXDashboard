@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "fetched_at": "2026-09-10T05:51:22.499Z",
+  "source": "https://inferencex.semianalysis.com/api/v1/collectivex/runs?version=1",
+  "discovery_complete": true,
+  "available_run_count": 10,
+  "runs": [
+    {
+      "run_id": "34432070017",
+      "kv_cases": {
+        "measured": 0,
+        "requested": 0
+      },
+      "conclusion": "success",
+      "run_attempt": 1,
+      "covered_skus": [
+        "h100-dgxc",
+        "h200-dgxc"
+      ],
+      "generated_at": "2026-09-10T03:29:13Z",
+      "measured_cases": 4,
+      "requested_cases": 4,
+      "terminal_counts": {
+        "failed": 0,
+        "measured": 4,
+        "unsupported": 0
+      },
+      "terminal_points": 28,
+      "requested_points": 28
+    },
+    {
+      "run_id": "33356406487",
+      "kv_cases": {
+        "measured": 0,
+        "requested": 0
+      },
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "covered_skus": [
+        "b200-nscale",
+        "b300",
+        "gb200",
+        "gb300",
+        "h100-dgxc",
+        "h200-dgxc",
+        "mi355x"
+      ],
+      "generated_at": "2026-08-31T05:22:20Z",
+      "measured_cases": 117,
+      "requested_cases": 134,
+      "terminal_counts": {
+        "failed": 0,
+        "measured": 117,
+        "unsupported": 16
+      },
+      "terminal_points": 994,
+      "requested_points": 1004
+    },
+    {
+      "run_id": "33412478973",
+      "kv_cases": {
+        "measured": 14,
+        "requested": 14
+      },
+      "conclusion": "success",
+      "run_attempt": 2,
+      "covered_skus": [
+        "b200-nscale",
+        "b300",
+        "gb200",
+        "gb300",
+        "h200-dgxc",
+        "mi355x"
+      ],
+      "generated_at": "2026-08-31T22:20:33Z",
+      "measured_cases": 14,
+      "requested_cases": 14,
+      "terminal_counts": {
+        "failed": 0,
+        "measured": 14,
+        "unsupported": 0
+      },
+      "terminal_points": 0,
+      "requested_points": 0
+    },
+    {
+      "run_id": "33378604574",
+      "kv_cases": {
+        "measured": 14,
+        "requested": 14
+      },
+      "conclusion": "success",
+      "run_attempt": 1,
+      "covered_skus": [
+        "b200-nscale",
+        "b300",
+        "gb200",
+        "gb300",
+        "h200-dgxc",
+        "mi355x"
+      ],
+      "generated_at": "2026-08-31T11:19:34Z",
+      "measured_cases": 14,
+      "requested_cases": 14,
+      "terminal_counts": {
+        "failed": 0,
+        "measured": 14,
+        "unsupported": 0
+      },
+      "terminal_points": 0,
+      "requested_points": 0
+    },
+    {
+      "run_id": "33893771034",
+      "kv_cases": {
+        "measured": 0,
+        "requested": 0
+      },
+      "conclusion": "success",
+      "run_attempt": 1,
+      "covered_skus": [
+        "h200-dgxc"
+      ],
+      "generated_at": "2026-09-05T01:28:42Z",
+      "measured_cases": 3,
+      "requested_cases": 5,
+      "terminal_counts": {
+        "failed": 0,
+        "measured": 3,
+        "unsupported": 2
+      },
+      "terminal_points": 38,
+      "requested_points": 38
+    }
+  ],
+  "files": {
+    "34432070017": "run-34432070017.json",
+    "33356406487": "run-33356406487.json",
+    "33412478973": "run-33412478973.json",
+    "33378604574": "run-33378604574.json",
+    "33893771034": "run-33893771034.json"
+  },
+  "sha256": {
+    "34432070017": "2bf62489a01169b856468d6823e87180cdee285cea3ae2623c289c629e4477ee",
+    "33356406487": "139db322760d57b21db6e806e457c060812c42aa3ad64aebedd0291711c48e8d",
+    "33412478973": "05080dcdc8ca57c292d0408d304e82922afcfb135e790f3da055b9bf1a952274",
+    "33378604574": "c3e27a28a297ce0fb47d2811055bd3a7b264be43947bf1de840e360d00a451d4",
+    "33893771034": "cd2d105129ff64195f2aef0cca7f182acf22e48cae41055f7e220853169b041d"
+  }
+}
