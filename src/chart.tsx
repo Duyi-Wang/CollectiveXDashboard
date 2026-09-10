@@ -1,3 +1,5 @@
+import { useI18n } from "./i18n-react";
+import { translate, type Language } from "./i18n";
 import { useId, useMemo, useState } from "react";
 import { area, format, line, scaleLinear, scaleLog } from "d3";
 import type { ChartPoint, ChartSeries } from "./model";
@@ -72,6 +74,7 @@ export function PerformanceChart({
   showBand = false,
   id,
 }: PerformanceChartProps) {
+  const { t } = useI18n();
   const generatedId = useId();
   const titleId = `${generatedId}-title`;
   const [active, setActive] = useState<{
@@ -192,7 +195,7 @@ export function PerformanceChart({
       >
         <title
           id={titleId}
-        >{`${yLabel} vs ${xLabel} · ${geometry.count} 个有效数据点`}</title>
+        >{`${yLabel} vs ${xLabel} · ${t("{count} 个有效数据点", { count: geometry.count })}`}</title>
         <rect width={WIDTH} height={HEIGHT} fill="#ffffff" />
         <g className="chart-grid" stroke="#e7eeed" strokeWidth="1">
           {geometry.xTicks.map((tick) => (
@@ -312,10 +315,10 @@ export function PerformanceChart({
         {geometry.count === 0 && (
           <g fill="#788a85" fontSize="15" textAnchor="middle">
             <text x={WIDTH / 2} y={HEIGHT / 2 - 10}>
-              当前筛选没有可绘制的数据
+              {t("当前筛选没有可绘制的数据")}
             </text>
             <text x={WIDTH / 2} y={HEIGHT / 2 + 16} fontSize="12">
-              缺失分位数不会补值；对数轴仅显示正数
+              {t("缺失分位数不会补值；对数轴仅显示正数")}
             </text>
           </g>
         )}
@@ -368,6 +371,7 @@ function saveBlob(blob: Blob, fileName: string) {
 function exportElement(
   svg: SVGSVGElement,
   series: ChartSeries[] = [],
+  language: Language = "en",
 ): SVGSVGElement {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   const width = svg.viewBox.baseVal.width || WIDTH;
@@ -394,7 +398,7 @@ function exportElement(
         "font-size": "13",
         "font-weight": "600",
       },
-      "CollectiveX · 可见系列 / Visible series",
+      `CollectiveX · ${translate("可见系列", language)}`,
     );
     cursor += 22;
     for (const entry of series) {
@@ -445,9 +449,10 @@ export function exportSvg(
   svg: SVGSVGElement,
   fileName: string,
   series: ChartSeries[] = [],
+  language: Language = "en",
 ): void {
   const source = new XMLSerializer().serializeToString(
-    exportElement(svg, series),
+    exportElement(svg, series, language),
   );
   saveBlob(
     new Blob([source], { type: "image/svg+xml;charset=utf-8" }),
@@ -459,8 +464,9 @@ export async function exportPng(
   svg: SVGSVGElement,
   fileName: string,
   series: ChartSeries[] = [],
+  language: Language = "en",
 ): Promise<void> {
-  const clone = exportElement(svg, series);
+  const clone = exportElement(svg, series, language);
   const url = URL.createObjectURL(
     new Blob([new XMLSerializer().serializeToString(clone)], {
       type: "image/svg+xml;charset=utf-8",

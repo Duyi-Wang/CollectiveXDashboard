@@ -1519,12 +1519,87 @@ footer a {
     min-height: 0;
   }
   .plot-wrap:has(.chart-svg)::after {
-    content: "左右滑动查看完整图表";
+    content: "Scroll horizontally to view the full chart";
     display: block;
     position: sticky;
     left: 0;
     padding: 4px 15px 10px;
     color: #99a9b2;
     font-size: 10px;
+  }
+}
+
+.language-switch {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #f5f8f8;
+  gap: 2px;
+}
+.language-switch button {
+  border: 0;
+  background: transparent;
+  padding: 4px 7px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #75858e;
+}
+.language-switch button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--green);
+  box-shadow: 0 1px 3px #142a3614;
+  font-weight: 600;
+}
+.dialog-header .language-switch {
+  margin-left: auto;
+  margin-right: 10px;
+}
+html[lang="zh-CN"] .plot-wrap:has(.chart-svg)::after {
+  content: "左右滑动查看完整图表";
+}
+html[lang="en"] .chart-controls {
+  gap: 10px;
+}
+html[lang="en"] .segmented button {
+  padding-inline: 8px;
+}
+@media (max-width: 760px) {
+  .app-header {
+    gap: 12px;
+  }
+  .header-right {
+    gap: 8px;
+  }
+  .browser-badge {
+    display: none;
+  }
+  .language-switch button {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+  html[lang="en"] .page-heading h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+  .page-heading > .primary {
+    flex-shrink: 0;
+  }
+  html[lang="en"] .segmented {
+    flex-wrap: wrap;
+  }
+  html[lang="en"] .segmented button {
+    flex: 1 1 40%;
+  }
+  html[lang="en"] .panel-heading {
+    flex-wrap: wrap;
+  }
+  html[lang="en"] .chart-heading {
+    flex-wrap: wrap;
+  }
+  html[lang="en"] .export-buttons {
+    margin-top: 0;
   }
 }

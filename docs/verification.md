@@ -6,8 +6,8 @@
 
 - `npm ci`：从 lockfile 全新安装依赖。
 - `npm run build`：TypeScript 严格类型检查和 Vite 生产构建。
-- `npm test`：55 项单元测试，覆盖 raw/官方/CSV/ZIP 解析、rerun 组装、分位数缺失、单位换算、KV、OLS、真实 SVG 断线、数据 CSV 往返、权限错误与凭据脱敏。
-- `npm run test:e2e`：6 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
+- `npm test`：60 项单元测试，覆盖 raw/官方/CSV/ZIP 解析、rerun 组装、分位数缺失、单位换算、KV、OLS、真实 SVG 断线、数据 CSV 往返、权限错误与凭据脱敏。
+- `npm run test:e2e`：9 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
 
 网络协议 E2E 中的官方/GitHub 响应为受控模拟，用于保证 CI 可重复且无需真实 token；测量值来自随项目保存的真实官方快照。以下真实网络检查另外执行，不能与模拟测试混淆。
 
@@ -26,3 +26,7 @@
 桌面和手机视口已通过实际渲染检查，桌面截图见 `docs/dashboard.png`。SVG/PNG 导出带完整可见系列图例、来源和 attempt；PNG 的 signature 已在浏览器测试中检查。
 
 官方 API 没有提供 raw `pair_period`，选择该组件时显示无数据；只有带实际该组件的原始 JSON/shard 才可绘图。失败、缺分位数与缺带宽不会被补成 0。已知缺失 ladder 点断开曲线。官方 counters 保留原值，页面实测点数另外从返回行计数。静态快照不是实时全库备份。
+
+## 中英文界面
+
+首次访问默认英文。新增验证覆盖英语/中文即时切换、语言刷新后保留、切换前后筛选与曲线路径和导出数据一致、导入错误/进度动态换语言、KV 图例及 SVG 导出语言、窄屏布局，以及 localStorage 被禁用时仍能切换。原有完整流程测试在中文模式继续通过。

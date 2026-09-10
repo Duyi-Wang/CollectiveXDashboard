@@ -18,6 +18,8 @@ npm run dev
 
 打开 http://localhost:5173 。初次打开会载入随项目附带的 **5 份真实官方历史快照**，默认选中硬件覆盖较广的 EP sweep。快照抓取时间、URL 和 SHA-256 见 [public/data/index.json](public/data/index.json)；页面将快照与实时数据明确区分，载入时间可在来源标签上查看。
 
+**界面语言**：首次打开默认英文，右上角 `EN / 中文` 可即时切换，导入窗口也有语言开关。选择会单独保存在当前浏览器；切换不会重置数据、筛选或图例。图表提示与 SVG/PNG 导出使用当前语言，原始测量字段、文件名和上游错误详情保留原文。
+
 工作区自动保存在当前浏览器的 IndexedDB。切换浏览器、清理站点数据或使用隐私模式可能丢失工作区；使用“导出 JSON”或“数据 CSV”备份。界面中的移除只修改本地工作区。
 
 ## 数据源
@@ -84,6 +86,7 @@ E2E 使用真实快照验证数值，网络异常与 GitHub 权限流程用模�
 | `src/App.tsx` / `src/styles.css` | 工作区、筛选、EP/KV/coverage 界面 |
 | `src/SourcesPanel.tsx` / `src/sources.ts` | 浏览器数据连接、GitHub artifact 选择、错误与 CORS 提示 |
 | `src/importers.ts` / `src/export.ts` | 三种来源的统一解析与可往返 CSV |
+| `src/i18n.ts` / `src/i18n-react.tsx` | 中英文文案、语言偏好与 React 切换状态 |
 | `src/model.ts` / `src/metrics.ts` | 数据契约、指标读取、拟合、KV 数据处理 |
 | `src/chart.tsx` | D3 scale/shape + React SVG、交互、图表导出 |
 | `src/storage.ts` | IndexedDB 工作区存储 |

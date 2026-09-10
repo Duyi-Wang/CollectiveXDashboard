@@ -6,6 +6,13 @@ import { zipSync, strToU8 } from "fflate";
 const snapshotFile = path.resolve("public/data/run-34432070017.json");
 const snapshot = JSON.parse(await readFile(snapshotFile, "utf8"));
 const api = "https://inferencex.semianalysis.com/api/v1/collectivex";
+// Existing behavior checks exercise the Chinese locale; language.spec.ts covers
+// a clean English default and switching without resetting the workspace.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("collectivex-dashboard:language", "zh"),
+  );
+});
 async function start(page: import("@playwright/test").Page) {
   await page.goto("/");
   await expect(page.locator(".run-table tbody tr")).toHaveCount(5);
@@ -67,15 +74,13 @@ test("真实快照、指标值、筛选、图例和键盘 tooltip", async ({ pag
 test("本地 ZIP、JSON / 数据 CSV 往返、持久化与无凭据导出", async ({ page }) => {
   await start(page);
   await page.getByRole("button", { name: "本地文件 JSON / CSV / ZIP" }).click();
-  await page
-    .getByLabel("选择本地数据文件")
-    .setInputFiles({
-      name: "snapshot.zip",
-      mimeType: "application/zip",
-      buffer: Buffer.from(
-        zipSync({ "result.json": strToU8(JSON.stringify(snapshot)) }),
-      ),
-    });
+  await page.getByLabel("选择本地数据文件").setInputFiles({
+    name: "snapshot.zip",
+    mimeType: "application/zip",
+    buffer: Buffer.from(
+      zipSync({ "result.json": strToU8(JSON.stringify(snapshot)) }),
+    ),
+  });
   await expect(page.getByRole("status")).toContainText("已导入 1 组数据");
   await page.getByRole("button", { name: "关闭数据导入" }).click();
   await expect(page.locator(".run-table tbody tr")).toHaveCount(6);
@@ -92,13 +97,11 @@ test("本地 ZIP、JSON / 数据 CSV 往返、持久化与无凭据导出", asyn
   await page.getByRole("button", { name: "数据 CSV", exact: true }).click();
   const csvPath = (await (await csvEvent).path())!;
   await page.getByRole("button", { name: "本地文件 JSON / CSV / ZIP" }).click();
-  await page
-    .getByLabel("选择本地数据文件")
-    .setInputFiles({
-      name: "roundtrip.csv",
-      mimeType: "text/csv",
-      buffer: await readFile(csvPath),
-    });
+  await page.getByLabel("选择本地数据文件").setInputFiles({
+    name: "roundtrip.csv",
+    mimeType: "text/csv",
+    buffer: await readFile(csvPath),
+  });
   await expect(page.getByRole("status")).toContainText("已导入 6 组数据");
   await page.getByRole("button", { name: "关闭数据导入" }).click();
   await expect(page.locator(".run-table tbody tr")).toHaveCount(12);
@@ -240,7 +243,7 @@ test("KV 多运行对比、coverage 搜索、SVG / PNG 自包含导出", async (
   const svgEvent = page.waitForEvent("download");
   await page.getByRole("button", { name: "SVG", exact: true }).click();
   const svg = await readFile((await (await svgEvent).path())!, "utf8");
-  expect(svg).toContain("Visible series");
+  expect(svg).toContain("可见系列");
   expect(svg).toContain("33412478973");
   const pngEvent = page.waitForEvent("download");
   await page.getByRole("button", { name: "PNG", exact: false }).click();

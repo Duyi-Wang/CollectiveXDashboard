@@ -369,8 +369,8 @@ describe("KV math", () => {
       pageTokens: 256,
     });
     expect(result[0].id).not.toBe(result[1].id);
-    expect(result[0].label).toContain("本地文件");
-    expect(result[1].label).toContain("官方实时 · attempt 2");
-    expect(result[0].points[0].detail).toContain("本地文件");
+    expect(result[0].label).toContain("Local files");
+    expect(result[1].label).toContain("Official live · attempt 2");
+    expect(result[0].points[0].detail).toContain("Local files");
   });
 });

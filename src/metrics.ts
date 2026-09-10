@@ -1,3 +1,4 @@
+import { translate, type Language } from "./i18n";
 import type {
   ChartPoint,
   ChartSeries,
@@ -145,23 +146,26 @@ export interface KvSelection {
   isl?: number;
 }
 
-function kvDetail(row: KvRow, runId: string): string {
+function kvDetail(row: KvRow, runId: string, language: Language): string {
+  const t = (key: string) => translate(key, language);
   return [
     `Run #${runId}`,
     `${row.kind} · ${row.op} · ISL ${row.isl.toLocaleString()} · batch ${row.batch}`,
     row.page_tokens === null
-      ? "连续单描述符基线"
+      ? t("连续单描述符基线")
       : `page ${row.page_tokens} tokens`,
     `p50 ${row.latency_ms.p50 ?? "—"} ms · p95 ${row.latency_ms.p95 ?? "—"} ms`,
     `GB/s ${row.gbps_p50} · prep ${row.prep_ms} ms · bytes/request ${row.req_bytes}`,
-    row.verify_passed ? "verify passed" : "verify failed · 不参与绘图",
+    row.verify_passed ? "verify passed" : t("verify failed · 不参与绘图"),
   ].join("\n");
 }
 
 export function buildKvSeries(
   loaded: LoadedDataset[],
   selection: KvSelection,
+  language: Language = "en",
 ): ChartSeries[] {
+  const t = (key: string) => translate(key, language);
   return loaded.flatMap((source, runIndex) =>
     !source.visible
       ? []
@@ -202,8 +206,8 @@ export function buildKvSeries(
                   x,
                   y: best ? best.gbps_p50 : null,
                   detail: best
-                    ? `${kvDetail(best, source.dataset.run.run_id)}\n该 ISL 下实测最佳 batch`
-                    : `ISL ${x}：无有效速率`,
+                    ? `${kvDetail(best, source.dataset.run.run_id, language)}\n${t("该 ISL 下实测最佳 batch")}`
+                    : translate("ISL {isl}：无有效速率", language, { isl: x }),
                 };
               });
             } else {
@@ -230,7 +234,7 @@ export function buildKvSeries(
                 return {
                   x: row.batch,
                   y,
-                  detail: kvDetail(row, source.dataset.run.run_id),
+                  detail: kvDetail(row, source.dataset.run.run_id, language),
                   ...(selection.view === "latency" &&
                   measurement(row.latency_ms.p95) !== null
                     ? {
@@ -256,10 +260,10 @@ export function buildKvSeries(
               kind === "paged" ? selection.pageTokens : null,
             ]);
             const sourceName = {
-              snapshot: "官方快照",
-              official: "官方实时",
+              snapshot: t("官方快照"),
+              official: t("官方实时"),
               github: "GitHub CI",
-              local: "本地文件",
+              local: t("本地文件"),
             }[source.origin];
             const provenance = `${sourceName} · attempt ${source.dataset.run.run_attempt}${source.origin === "local" ? ` · ${source.label}` : ""}`;
             return [

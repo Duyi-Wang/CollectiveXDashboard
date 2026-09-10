@@ -49,7 +49,7 @@ describe("PerformanceChart SVG contract", () => {
     );
     expect(linear).toContain('class="chart-point"');
     expect(logarithmic).not.toContain('class="chart-point"');
-    expect(logarithmic).toContain("当前筛选没有可绘制的数据");
+    expect(logarithmic).toContain("No plottable data for the current selection");
   });
   it("renders only measured bands and uses run-specific line patterns", () => {
     const band = {
