@@ -9,6 +9,8 @@ Built with React, TypeScript, Vite, and D3. The app runs entirely in the browser
 - **Portable results:** workspace JSON, round-trip Dataset CSV, filtered Chart CSV, and SVG/PNG exports with legends.
 - **Ready to explore:** five real official snapshots, an AMD-inspired dark theme, and English/Chinese UI switching. English is the default.
 
+The dark theme uses restrained red for the brand and primary actions, slate-blue for informational and selected states, green for success, and amber for warnings. Benchmark curves retain their vendor-specific colors.
+
 ![CollectiveX Dashboard with the AMD-inspired dark theme](docs/dashboard.png)
 
 ## Quick start
@@ -134,7 +136,7 @@ The GitHub Actions [verification workflow](.github/workflows/ci.yml) runs these 
 | `public/`, `scripts/snapshot.mjs` | Static assets and traceable official snapshots |
 | `tests/` | Unit tests and Playwright browser tests |
 | `docs/` | Research, data contracts, screenshots, and validation notes |
-| `AGENTS.md`, `claude.md` | Contributor-agent instructions; `claude.md` is a relative symlink to `AGENTS.md` |
+| `AGENTS.md`, `CLAUDE.md` | Contributor-agent instructions; `CLAUDE.md` is a relative symlink to `AGENTS.md` |
 
 See the [documentation index](docs/README.md) for the research references. Detailed research notes currently remain in Simplified Chinese. See [AGENTS.md](AGENTS.md) for repository conventions and data invariants.
 

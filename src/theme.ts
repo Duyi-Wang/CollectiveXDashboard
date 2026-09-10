@@ -8,5 +8,5 @@ export const CHART_THEME = {
   muted: "#a0a8b6",
   tooltip: "#24272f",
   tooltipBorder: "#464b57",
-  accent: "#ff6874",
+  brand: "#e86670",
 } as const;

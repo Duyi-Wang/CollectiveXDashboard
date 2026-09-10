@@ -591,7 +591,7 @@ export default function App() {
             <strong>{number(measured, 0)}</strong>
             <p>{t("从已载入的 EP / KV 数据逐点计数")}</p>
           </div>
-          <div className="stat-card accent-card">
+          <div className="stat-card source-card">
             <span>
               {t("数据来源")}
               <Database size={16} />
@@ -724,7 +724,7 @@ export default function App() {
                               x2="23"
                               y1="5"
                               y2="5"
-                              stroke="var(--accent)"
+                              stroke="var(--selected-marker)"
                               strokeWidth="2"
                               strokeDasharray={chartDash(
                                 Math.max(

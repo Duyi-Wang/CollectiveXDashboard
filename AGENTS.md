@@ -4,7 +4,7 @@
 
 - Follow the user's preferred language. This workspace defaults to Simplified Chinese for conversation; keep code, commands, paths, API fields, and logs in their original language.
 - Keep `README.md` and this file in English. The application supports English and Simplified Chinese, with English as the first-visit default.
-- `claude.md` is a relative symlink to `AGENTS.md`. Edit this file as the single source of instructions; do not replace the symlink with a duplicate file.
+- `CLAUDE.md` is a relative symlink to `AGENTS.md`. Edit this file as the single source of instructions; do not replace the symlink with a duplicate file.
 
 ## Architecture
 
@@ -53,7 +53,7 @@ npx playwright install chromium   # Install the local E2E browser if needed
 npm run test:e2e                   # Browser tests against dist/
 ```
 
-Build before running E2E tests. Run all three verification commands before submitting application changes. For documentation-only changes, verify paths, commands, Markdown links, and the `claude.md` symlink; run the full checks when preparing the repository for publication.
+Build before running E2E tests. Run all three verification commands before submitting application changes. For documentation-only changes, verify paths, commands, Markdown links, and the `CLAUDE.md` symlink; run the full checks when preparing the repository for publication.
 
 Add tests when they protect meaningful data behavior or interaction. Do not add tests that merely duplicate constants or styling. Browser tests should use bundled data and controlled network responses, with no live credentials.
 

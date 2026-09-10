@@ -444,7 +444,10 @@ export default function SourcesPanel({ initialTab, onClose, onImport }: Props) {
         </button>
       )}
       {status && (
-        <p className="import-status" role="status">
+        <p
+          className={`import-status ${busy ? "is-loading" : "is-success"}`}
+          role="status"
+        >
           {busy && <LoaderCircle className="spin" size={16} />}{" "}
           {message(status)}
         </p>
