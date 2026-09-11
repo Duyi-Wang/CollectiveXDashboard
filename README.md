@@ -1,4 +1,4 @@
-# CollectiveX Dashboard — MORI Internal Fork
+# CollectiveX · Mori Internal dashboard
 
 [**Open the dashboard**](https://duyi-wang.github.io/CollectiveXDashboard/) · [GitHub repository](https://github.com/Duyi-Wang/CollectiveXDashboard) · [Build and deployment](https://github.com/Duyi-Wang/CollectiveXDashboard/actions/workflows/ci.yml)
 

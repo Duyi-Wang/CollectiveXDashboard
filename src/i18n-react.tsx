@@ -16,7 +16,7 @@ import {
   type TranslationParams,
 } from "./i18n";
 
-import { INTERNAL_FORK_TITLE } from "./branding";
+import { DASHBOARD_TITLE } from "./branding";
 
 const LanguageContext = createContext({
   language: "en" as Language,
@@ -26,7 +26,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(readLanguage);
   useEffect(() => {
     document.documentElement.lang = language === "en" ? "en" : "zh-CN";
-    document.title = translate(INTERNAL_FORK_TITLE, language);
+    document.title = translate(DASHBOARD_TITLE, language);
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute(

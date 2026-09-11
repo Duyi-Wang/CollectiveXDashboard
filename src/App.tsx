@@ -30,7 +30,11 @@ import type {
   Series,
 } from "./model";
 import { METRICS, OPERATIONS } from "./model";
-import { INTERNAL_FORK_TITLE, INTERNAL_WATERMARK } from "./branding";
+import {
+  DASHBOARD_TITLE,
+  INTERNAL_EDITION,
+  INTERNAL_WATERMARK,
+} from "./branding";
 import {
   PerformanceChart,
   chartColor,
@@ -470,7 +474,7 @@ export default function App() {
           </span>
           <span>
             Collective<span className="brand-x">X</span>
-            <small>{INTERNAL_WATERMARK} Fork</small>
+            <small>{INTERNAL_EDITION}</small>
           </span>
         </a>
         <nav className="header-nav">
@@ -505,7 +509,7 @@ export default function App() {
         <div className="page-heading">
           <div>
             <p className="eyebrow">COMMUNICATION BENCHMARK EXPLORER</p>
-            <h1>{t(INTERNAL_FORK_TITLE)}</h1>
+            <h1>{t(DASHBOARD_TITLE)}</h1>
             <p className="subtitle">
               {t(
                 "对比 CollectiveX 延迟与带宽，探索不同硬件、通信库和并行配置的性能边界。",

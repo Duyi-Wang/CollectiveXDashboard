@@ -234,7 +234,8 @@ export const ENGLISH: Record<string, string> = {
   "Burst 延迟 p50（ms）": "Burst latency p50 (ms)",
   "每个 ISL 的最高带宽（GB/s）": "Best bandwidth at each ISL (GB/s)",
   "带宽 / batch-1 带宽（倍）": "Bandwidth / batch-1 bandwidth (×)",
-  "CollectiveX · MORI 内部 Fork": "CollectiveX · MORI Internal Fork",
+  "CollectiveX · Mori Internal dashboard":
+    "CollectiveX · Mori Internal dashboard",
   "MORI 内部 fork 的 CollectiveX 通信性能实验台。导入 InferenceX、GitHub Actions 和本地数据，对比 GPU 通信延迟与带宽。":
     "MORI internal fork of the CollectiveX communication benchmark explorer. Import InferenceX, GitHub Actions and local data to compare GPU communication latency and bandwidth.",
   "显示 {origin} {run}": "Show {origin} {run}",
