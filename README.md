@@ -13,8 +13,6 @@ Built with React, TypeScript, Vite, and D3. The app runs entirely in the browser
 
 The dark theme uses restrained red for the brand and primary actions, slate-blue for informational and selected states, green for success, and amber for warnings. Benchmark curves retain their vendor-specific colors.
 
-![CollectiveX Dashboard with the AMD-inspired dark theme](docs/dashboard.png)
-
 ## Quick start
 
 Use **Node.js 22.12 or newer** and npm. The repository includes an `.nvmrc` for Node.js 22.
