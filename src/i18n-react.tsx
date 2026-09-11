@@ -16,6 +16,8 @@ import {
   type TranslationParams,
 } from "./i18n";
 
+import { INTERNAL_FORK_TITLE } from "./branding";
+
 const LanguageContext = createContext({
   language: "en" as Language,
   setLanguage: (_language: Language) => {},
@@ -24,13 +26,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(readLanguage);
   useEffect(() => {
     document.documentElement.lang = language === "en" ? "en" : "zh-CN";
-    document.title = translate("CollectiveX · 通信性能实验台", language);
+    document.title = translate(INTERNAL_FORK_TITLE, language);
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
         translate(
-          "CollectiveX 通信性能实验台。导入 InferenceX、GitHub Actions 和本地数据，对比 GPU 通信延迟与带宽。",
+          "MORI 内部 fork 的 CollectiveX 通信性能实验台。导入 InferenceX、GitHub Actions 和本地数据，对比 GPU 通信延迟与带宽。",
           language,
         ),
       );

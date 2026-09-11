@@ -30,6 +30,7 @@ import type {
   Series,
 } from "./model";
 import { METRICS, OPERATIONS } from "./model";
+import { INTERNAL_FORK_TITLE, INTERNAL_WATERMARK } from "./branding";
 import {
   PerformanceChart,
   chartColor,
@@ -469,7 +470,7 @@ export default function App() {
           </span>
           <span>
             Collective<span className="brand-x">X</span>
-            <small>DASHBOARD</small>
+            <small>{INTERNAL_WATERMARK} Fork</small>
           </span>
         </a>
         <nav className="header-nav">
@@ -504,10 +505,7 @@ export default function App() {
         <div className="page-heading">
           <div>
             <p className="eyebrow">COMMUNICATION BENCHMARK EXPLORER</p>
-            <h1>
-              {t("看清每一次 GPU 通信")}
-              <span className="heading-dot">.</span>
-            </h1>
+            <h1>{t(INTERNAL_FORK_TITLE)}</h1>
             <p className="subtitle">
               {t(
                 "对比 CollectiveX 延迟与带宽，探索不同硬件、通信库和并行配置的性能边界。",
@@ -1420,7 +1418,7 @@ export default function App() {
         )}
         <footer>
           <span>
-            CollectiveX Dashboard <i />
+            CollectiveX · {INTERNAL_WATERMARK} <i />
             {t("基于 InferenceX 公开数据与测试协议独立构建")}
           </span>
           <a

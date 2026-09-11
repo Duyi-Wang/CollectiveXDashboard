@@ -302,10 +302,6 @@ svg {
   margin: 8px 0 9px;
   color: var(--text);
 }
-.heading-dot {
-  color: var(--brand);
-  padding-left: 3px;
-}
 .subtitle {
   color: var(--muted);
   font-size: 12px;

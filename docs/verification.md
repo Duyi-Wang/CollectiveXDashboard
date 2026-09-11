@@ -7,7 +7,7 @@
 - `npm ci`：从 lockfile 全新安装依赖。
 - `npm run build`：TypeScript 严格类型检查和 Vite 生产构建。
 - `npm test`：64 项单元测试，覆盖 raw/官方/CSV/ZIP 解析、rerun 组装、分位数缺失、单位换算、KV、OLS、真实 SVG 断线、数据 CSV 往返、权限错误与凭据脱敏。
-- `npm run test:e2e`：13 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
+- `npm run test:e2e`：14 项 Chromium 测试，在生产静态构建上运行。覆盖真实快照数值、筛选和键盘 tooltip、本地 ZIP 导入、JSON/CSV 与 IndexedDB 往返、官方 CORS 失败/恢复、GitHub 下载链路、token 关闭即清除、KV/coverage、SVG/PNG 图例与文件格式、390px 窄屏无页面横向溢出。
 
 网络协议 E2E 中的官方/GitHub 响应为受控模拟，用于保证 CI 可重复且无需真实 token；测量值来自随项目保存的真实官方快照。以下真实网络检查另外执行，不能与模拟测试混淆。
 
@@ -47,3 +47,8 @@
 ## 可选本地 Token 保存
 
 2026-09-10：按用户要求加入显式选择的本地 Token 保存。默认不持久化；勾选后使用独立的 localStorage key，重新打开窗口或刷新会恢复。取消勾选删除保存值，清除按钮同时清空输入。64 项单元测试、13 项浏览器测试和生产构建通过，新增检查覆盖保存/更新/恢复/清除、存储拒绝、JSON/Dataset CSV/Chart CSV 与 IndexedDB 工作区隔离，以及中英文提示。测试只使用虚构 Token。保存是当前 origin 的未加密浏览器存储，不是加密凭据库；以上能力替代旧版本“始终仅保存在窗口内存中”的规则。
+
+
+## 内部 Fork 标识与图片水印
+
+2026-09-11：页面标题、浏览器标题与 README 标明 MORI 内部 fork；图表使用原生 SVG 文本绘制固定英文 `MORI Internal` 水印，置于数据曲线下层且不截获鼠标事件。SVG/PNG 导出包含同一水印。新增浏览器验证对比实际 PNG、带水印 SVG 和移除水印后的 SVG，检查水印区域的像素差异，避免仅验证网页文字存在。原有 13 项浏览器用例与新增水印用例通过，单元测试仍为 64 项；桌面和 390px 窄屏实测正常。临时预览服务在检查结束后关闭。

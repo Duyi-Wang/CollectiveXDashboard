@@ -31,7 +31,7 @@
     "vite": "^6.3.6",
     "vitest": "^4.1.11"
   },
-  "description": "A frontend-only dashboard for CollectiveX GPU communication benchmarks, with local, GitHub Actions, and InferenceX data sources.",
+  "description": "MORI internal fork of the frontend-only CollectiveX GPU communication dashboard, with local, GitHub Actions, and InferenceX data sources.",
   "license": "MIT",
   "engines": {
     "node": ">=22.12.0"

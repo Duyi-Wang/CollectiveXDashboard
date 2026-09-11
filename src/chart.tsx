@@ -3,6 +3,7 @@ import { translate, type Language } from "./i18n";
 import { useId, useMemo, useState } from "react";
 import { area, format, hsl, line, scaleLinear, scaleLog } from "d3";
 import { CHART_THEME } from "./theme";
+import { INTERNAL_WATERMARK } from "./branding";
 import type { ChartPoint, ChartSeries } from "./model";
 
 /** Keep each configuration's color stable across filters and runs. Vendor fields
@@ -206,7 +207,7 @@ export function PerformanceChart({
       >
         <title
           id={titleId}
-        >{`${yLabel} vs ${xLabel} · ${t("{count} 个有效数据点", { count: geometry.count })}`}</title>
+        >{`${INTERNAL_WATERMARK} · ${yLabel} vs ${xLabel} · ${t("{count} 个有效数据点", { count: geometry.count })}`}</title>
         <rect width={WIDTH} height={HEIGHT} fill={CHART_THEME.background} />
         <g className="chart-grid" stroke={CHART_THEME.grid} strokeWidth="1">
           {geometry.xTicks.map((tick) => (
@@ -228,6 +229,24 @@ export function PerformanceChart({
             />
           ))}
         </g>
+        <text
+          className="chart-watermark"
+          x={(MARGIN.left + RIGHT) / 2}
+          y={(MARGIN.top + BOTTOM) / 2}
+          transform={`rotate(-14 ${(MARGIN.left + RIGHT) / 2} ${(MARGIN.top + BOTTOM) / 2})`}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill={CHART_THEME.text}
+          fillOpacity="0.16"
+          fontFamily="Arial, sans-serif"
+          fontSize="54"
+          fontWeight="700"
+          letterSpacing="3"
+          pointerEvents="none"
+          aria-hidden="true"
+        >
+          {INTERNAL_WATERMARK}
+        </text>
         <g fill={CHART_THEME.text} fontSize="12">
           {geometry.xTicks.map((tick) => (
             <text
@@ -410,7 +429,7 @@ function exportElement(
         "font-size": "13",
         "font-weight": "600",
       },
-      `CollectiveX · ${translate("可见系列", language)}`,
+      `CollectiveX · ${INTERNAL_WATERMARK} · ${translate("可见系列", language)}`,
     );
     cursor += 22;
     for (const entry of series) {

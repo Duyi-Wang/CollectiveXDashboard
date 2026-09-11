@@ -14,6 +14,7 @@ This is a frontend-only Vite + React + TypeScript application. Do not introduce 
 - `src/SourcesPanel.tsx`, `src/sources.ts`: import controls, official API calls, GitHub run/artifact selection, and network errors.
 - `src/model.ts`, `src/importers.ts`, `src/export.ts`: normalized data contracts, file parsing, and round-trip Dataset CSV.
 - `src/metrics.ts`, `src/chart.tsx`: metric calculations, KV comparisons, SVG rendering, and image export.
+- `src/branding.ts`: internal-fork identity. Keep the `MORI Internal` watermark embedded in chart SVGs and PNG exports; do not translate the watermark.
 - `src/i18n.ts`, `src/i18n-react.tsx`: translation catalog, localized diagnostics, and language preferences.
 - `src/styles.css`, `src/theme.ts`: semantic UI colors and concrete SVG/PNG colors. Keep both aligned with the AMD-inspired dark theme.
 - `src/storage.ts`: IndexedDB workspace persistence.

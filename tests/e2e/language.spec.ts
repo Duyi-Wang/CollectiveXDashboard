@@ -14,11 +14,12 @@ async function workspaceExport(page: Page) {
 test("默认英文，中英文切换保留筛选和数据，刷新后记住选择", async ({ page }) => {
   await ready(page);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page).toHaveTitle("CollectiveX · MORI Internal Fork");
   await expect(
     page.getByRole("button", { name: "English", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Understand every GPU transfer.",
+    "CollectiveX · MORI Internal Fork",
   );
   await expect(page.locator("main")).not.toContainText(/[\u4e00-\u9fff]/);
   await page
@@ -31,8 +32,9 @@ test("默认英文，中英文切换保留筛选和数据，刷新后记住选�
   const exported = await workspaceExport(page);
   await page.getByRole("button", { name: "中文", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
+  await expect(page).toHaveTitle("CollectiveX · MORI 内部 Fork");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "看清每一次 GPU 通信.",
+    "CollectiveX · MORI 内部 Fork",
   );
   await expect(
     page.getByRole("combobox", { name: "EP", exact: true }),
@@ -45,7 +47,7 @@ test("默认英文，中英文切换保留筛选和数据，刷新后记住选�
   expect(await workspaceExport(page)).toEqual(exported);
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "看清每一次 GPU 通信.",
+    "CollectiveX · MORI 内部 Fork",
   );
   await page.getByRole("button", { name: "English", exact: true }).click();
   await page.reload();

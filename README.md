@@ -1,14 +1,14 @@
-# CollectiveX Dashboard
+# CollectiveX Dashboard — MORI Internal Fork
 
 [**Open the dashboard**](https://duyi-wang.github.io/CollectiveXDashboard/) · [GitHub repository](https://github.com/Duyi-Wang/CollectiveXDashboard) · [Build and deployment](https://github.com/Duyi-Wang/CollectiveXDashboard/actions/workflows/ci.yml)
 
-A browser-based dashboard for exploring GPU communication benchmarks from [InferenceX CollectiveX](https://github.com/SemiAnalysisAI/InferenceX/tree/main/experimental/CollectiveX). Compare expert-parallel communication and KV cache transfers across hardware, backends, configurations, and runs.
+A **MORI internal fork** for exploring GPU communication benchmarks from [InferenceX CollectiveX](https://github.com/SemiAnalysisAI/InferenceX/tree/main/experimental/CollectiveX). Compare expert-parallel communication and KV cache transfers across hardware, backends, configurations, and runs.
 
 Built with React, TypeScript, Vite, and D3. The app runs entirely in the browser: local files are parsed locally, and live data is fetched directly from GitHub or the public InferenceX API. **There is no backend or API proxy.** Live access to the official API requires a browser CORS extension.
 
 - **Three data sources:** local JSON/JSONL/CSV/ZIP files, GitHub Actions run URLs, and the official InferenceX API.
 - **EP and KV analysis:** latency, bandwidth, percentiles, configuration filters, run comparisons, and test coverage.
-- **Portable results:** workspace JSON, round-trip Dataset CSV, filtered Chart CSV, and SVG/PNG exports with legends.
+- **Portable results:** workspace JSON, round-trip Dataset CSV, filtered Chart CSV, and SVG/PNG exports with legends and a **MORI Internal** watermark.
 - **Ready to explore:** five real official snapshots, an AMD-inspired dark theme, and English/Chinese UI switching. English is the default.
 
 The dark theme uses restrained red for the brand and primary actions, slate-blue for informational and selected states, green for success, and amber for warnings. Benchmark curves retain their vendor-specific colors.
@@ -82,7 +82,7 @@ The workspace is saved in the current browser's IndexedDB. Use exports for backu
 | Workspace JSON | All loaded datasets, including EP, KV, coverage, and run metadata | Yes |
 | Dataset CSV | Typed records preserving the full datasets and measurement units | Yes |
 | Chart CSV | The currently visible coordinates, labels, axes, and point details | No; intended for analysis in other tools |
-| SVG / PNG | The current chart and full visible-series legend in the dark theme | Image output only |
+| SVG / PNG | The current chart, MORI Internal watermark, and full visible-series legend in the dark theme | Image output only |
 
 Removing a run only changes the local workspace. Clearing browser site data can remove saved workspaces and preferences.
 
