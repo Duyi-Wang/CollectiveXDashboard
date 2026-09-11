@@ -35,5 +35,13 @@
   "license": "MIT",
   "engines": {
     "node": ">=22.12.0"
+  },
+  "homepage": "https://duyi-wang.github.io/CollectiveXDashboard/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duyi-Wang/CollectiveXDashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Duyi-Wang/CollectiveXDashboard/issues"
   }
 }

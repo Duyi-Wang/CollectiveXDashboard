@@ -20,6 +20,7 @@ This is a frontend-only Vite + React + TypeScript application. Do not introduce 
 - `src/tokenStorage.ts`: opt-in GitHub token storage, isolated from workspace persistence and exports.
 - `public/data/`, `scripts/snapshot.mjs`: official historical snapshots and their provenance manifest.
 - `tests/`: unit tests at the root and Playwright browser tests under `tests/e2e/`.
+- `.github/workflows/ci.yml`: verifies every push/PR and deploys successful `main` runs to GitHub Pages. Keep deployment gated on verification; never deploy pull-request code.
 
 Read the relevant documentation under `docs/` before changing a data contract. The detailed research and import notes are currently in Simplified Chinese.
 

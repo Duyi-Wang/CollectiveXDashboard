@@ -1,5 +1,7 @@
 # CollectiveX Dashboard
 
+[**Open the dashboard**](https://duyi-wang.github.io/CollectiveXDashboard/) · [GitHub repository](https://github.com/Duyi-Wang/CollectiveXDashboard) · [Build and deployment](https://github.com/Duyi-Wang/CollectiveXDashboard/actions/workflows/ci.yml)
+
 A browser-based dashboard for exploring GPU communication benchmarks from [InferenceX CollectiveX](https://github.com/SemiAnalysisAI/InferenceX/tree/main/experimental/CollectiveX). Compare expert-parallel communication and KV cache transfers across hardware, backends, configurations, and runs.
 
 Built with React, TypeScript, Vite, and D3. The app runs entirely in the browser: local files are parsed locally, and live data is fetched directly from GitHub or the public InferenceX API. **There is no backend or API proxy.** Live access to the official API requires a browser CORS extension.
@@ -18,7 +20,8 @@ The dark theme uses restrained red for the brand and primary actions, slate-blue
 Use **Node.js 22.12 or newer** and npm. The repository includes an `.nvmrc` for Node.js 22.
 
 ```bash
-# From your clone of this repository:
+git clone https://github.com/Duyi-Wang/CollectiveXDashboard.git
+cd CollectiveXDashboard
 npm ci
 npm run dev
 ```
@@ -98,7 +101,9 @@ npm run preview
 
 The production output is **`dist/`**. Serve it from any static host, including GitHub Pages. Relative asset paths support repository subpaths. Use HTTP(S), not `file://`, because the application uses ES modules.
 
-The same CORS-extension requirements apply in development and production. Build output and dependencies are ignored by Git; CI uploads `dist/` as an artifact after successful verification. The CI workflow verifies and packages the app; deployment is configured separately on the chosen host.
+The hosted dashboard is available at **https://duyi-wang.github.io/CollectiveXDashboard/**. Every push to `main` runs unit tests, builds the site, runs Playwright tests, and deploys the verified `dist/` to GitHub Pages. Pull requests and other branches run verification without deploying. You can also run the workflow manually on `main` to redeploy.
+
+Pages uses the **GitHub Actions** build source and the `github-pages` environment. Deployment uses the built-in workflow token and OpenID Connect, with no personal token or database credentials stored in repository secrets. The same CORS-extension requirements apply in development and production. Build output and dependencies remain ignored by Git.
 
 ### Refresh bundled snapshots
 
@@ -124,7 +129,7 @@ npm run test:e2e                  # Browser tests against the production build
 
 Run the build before E2E tests so the preview server uses current code. On Linux CI, Playwright installs browser dependencies with `npx playwright install --with-deps chromium`.
 
-The GitHub Actions [verification workflow](.github/workflows/ci.yml) runs these checks on pushes and pull requests, and can also be started manually. It uses bundled measurements and mocked network responses, so CI requires no GitHub token or database credentials. Live API checks are documented separately in the [verification notes](docs/verification.md).
+The GitHub Actions [verification and deployment workflow](.github/workflows/ci.yml) runs these checks on pushes and pull requests, and can also be started manually. A successful `main` run deploys to Pages. Tests use bundled measurements and mocked network responses, so they require no personal GitHub token or database credentials. Live API checks are documented separately in the [verification notes](docs/verification.md).
 
 | Directory / file | Purpose |
 | --- | --- |
